@@ -83,3 +83,12 @@ kate package.xml
 cd ../../..
 cd workspace
 catkin_make
+
+Создать в корневой директории папку с workspace-ом. Затем создать один компилируемый с помощью catkin_make пакет.
+
+ВЫПОЛНИТЬ:
+
+	mkdir -p workspace/src
+	cd workspace/src
+	catkin_init_workspace
+	catkin_create_pkg numberone
