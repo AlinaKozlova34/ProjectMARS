@@ -4,9 +4,9 @@
 
 ВЫПОЛНИТЬ:
 
-cd workspace/src
-catkin_create_pkg talkers roscpp
-cd talkers/
+	cd workspace/src
+	catkin_create_pkg talkers roscpp
+	cd talkers/
 
 Последовательность команд, задающая пользовательское имя запускаемой ноде
 
@@ -52,14 +52,14 @@ rosrun turtlesim turtlesim_node __name:=new_node
 
 ВЫПОЛНИТЬ:
 
-cd ..//..
-catkin_make
+	cd ..//..
+	catkin_make
 
 После компиляции можно запустить ноду:
  
 ВЫПОЛНИТЬ:
 
-roscore
-rosrun tutrlesim turtlesim_node
-sourse devel/setup.bash 
-rosrun talkers publisher
+	roscore
+	rosrun tutrlesim turtlesim_node
+	sourse devel/setup.bash 
+	rosrun talkers publisher
