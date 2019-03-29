@@ -71,3 +71,51 @@
 	rossrv show my_service/AddInts
 
 	cd/devel/include/my_service/ 
+
+ќтличие команд rossrv и rosservice:
+
+rossrv работает  с типами сервисов и покажет все сервисы, существующие в ros
+rosservice покажет те сервисы, которые доступны в момент компил€ции ros
+
+—оздать собственный сервис:
+
+¬џѕќЋЌ»“№:
+
+	cd ~/workspace/src/
+	catkin_create_pkg client_server roscpp my_service
+	cd client_server/
+	cd src/
+	ls
+	touch subcriber.cpp
+	gedit subcriber.cpp
+
+¬ редакторе subcriber.cpp:
+
+¬џѕќЋЌ»“№:
+
+	#include "ros/ros.h"
+	#include "my_service/AddInts.h"
+
+	bool add(service::AddInts::Request &req,
+		service::AddInts::Response &res)
+	{
+		res.sum = req.first + req.second;
+		ROS_INFO("request: x=%d, y=%d". req.first, req.second);
+		ROS_INFO("sending back response: [%d]", res.sum);
+		return true;
+	}
+
+	int main(int argc, char **argv)
+	{
+		ros::init(argc, argv, "add_two_ints_server");
+		ros::NodeHandle n;
+
+		ros::ServiceServer service = n.advertiseService("add_two_ints", add);
+		ROS_INFO("Ready to add two ints.");
+		ros::spin();
+
+		return 0;
+	}
+
+ƒл€ пакета, если предполагаетс€, что ноды этого пакета будут осуществл€ть какие-то сервисные вызовы, необходимо указать зависимости:
+message_generation и message_runtime, только если в рамках этого же пакета создаЄтс€ сообщение типа сервис и им€ пакета, в котором создано сообщение типа сервис
