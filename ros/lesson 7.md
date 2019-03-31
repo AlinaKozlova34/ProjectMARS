@@ -118,4 +118,34 @@ rosservice покажет те сервисы, которые доступны в момент компил€ции ros
 	}
 
 ƒл€ пакета, если предполагаетс€, что ноды этого пакета будут осуществл€ть какие-то сервисные вызовы, необходимо указать зависимости:
-message_generation и message_runtime, только если в рамках этого же пакета создаЄтс€ сообщение типа сервис и им€ пакета, в котором создано сообщение типа сервис
+message_generation и message_runtime, только если в рамках этого же пакета создаЄтс€ сообщение типа сервис и им€ пакета, в котором создано сообщение типа сервис.
+
+
+¬ редакторе CmakeLists.txt:
+
+¬џѕќЋЌ»“№:
+
+add_executable(server src/subscriber.cpp)
+
+target_link_libraries(server
+	${catkin_LIBRARIES}
+)
+
+—борка и запуск сервера:
+
+¬џѕќЋЌ»“№:
+
+cd ~/workspace/
+catkin_make
+
+roscore
+source devel/setup.bash
+rosrun client_server server
+
+//в отдельной консоли
+source devel/setup.bash
+rosservice call /add_two_ints //ввод двух чисел и возвращение их суммы
+
+ ак писать своего клиента
+
+
