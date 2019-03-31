@@ -146,6 +146,4 @@ rosrun client_server server
 source devel/setup.bash
 rosservice call /add_two_ints //ввод двух чисел и возвращение их суммы
 
-Как писать своего клиента
-
 
