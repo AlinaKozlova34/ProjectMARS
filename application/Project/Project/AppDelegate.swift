@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  Project
 //
-//  Created by Кирилл Иванов on 25/03/2019.
+//  Created by Кирилл Иванов on 31/03/2019.
 //  Copyright © 2019 Kirill Ivanoff. All rights reserved.
 //
 
@@ -16,6 +16,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        window = UIWindow()
+        window?.makeKeyAndVisible()
+        
+        let viewController = ViewController()
+        window?.rootViewController = viewController
+        
+        
         return true
     }
 
