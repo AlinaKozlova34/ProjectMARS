@@ -125,25 +125,25 @@ message_generation и message_runtime, только если в рамках этого же пакета созда
 
 ¬џѕќЋЌ»“№:
 
-add_executable(server src/subscriber.cpp)
+	add_executable(server src/subscriber.cpp)
 
-target_link_libraries(server
-	${catkin_LIBRARIES}
-)
+	target_link_libraries(server
+		${catkin_LIBRARIES}
+	)
 
 —борка и запуск сервера:
 
 ¬џѕќЋЌ»“№:
 
-cd ~/workspace/
-catkin_make
+	cd ~/workspace/
+	catkin_make
 
-roscore
-source devel/setup.bash
-rosrun client_server server
+	roscore
+	source devel/setup.bash
+	rosrun client_server server
 
 //в отдельной консоли
-source devel/setup.bash
-rosservice call /add_two_ints //ввод двух чисел и возвращение их суммы
+	source devel/setup.bash
+	rosservice call /add_two_ints //ввод двух чисел и возвращение их суммы
 
 
