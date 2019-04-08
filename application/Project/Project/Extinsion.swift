@@ -35,3 +35,20 @@ public extension SKSpriteNode {
     }
     
 }
+
+enum Commands: Int, CustomStringConvertible {
+    case command1
+    case command2
+    case command3
+    
+    var description: String {
+        switch self {
+        case .command1:
+            return "Command 1"
+        case .command2:
+            return "Command 2"
+        case .command3:
+            return "Command 3"
+        }
+    }
+}

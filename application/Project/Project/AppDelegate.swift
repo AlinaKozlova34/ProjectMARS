@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow()
         window?.makeKeyAndVisible()
         
-        let viewController = ViewController()
+        let viewController = MainViewController()
         window?.rootViewController = viewController
         
         

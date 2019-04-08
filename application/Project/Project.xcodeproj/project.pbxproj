@@ -8,19 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		ED46C27A22515E8200B3040B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED46C27922515E8200B3040B /* AppDelegate.swift */; };
-		ED46C27C22515E8200B3040B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED46C27B22515E8200B3040B /* ViewController.swift */; };
+		ED46C27C22515E8200B3040B /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED46C27B22515E8200B3040B /* Views.swift */; };
 		ED46C27F22515E8200B3040B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED46C27D22515E8200B3040B /* Main.storyboard */; };
 		ED46C28122515E8400B3040B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED46C28022515E8400B3040B /* Assets.xcassets */; };
 		ED46C28422515E8400B3040B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED46C28222515E8400B3040B /* LaunchScreen.storyboard */; };
 		ED46C28C22515F6400B3040B /* Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED46C28B22515F6400B3040B /* Class.swift */; };
 		ED46C28E22515FA000B3040B /* Extinsion.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED46C28D22515FA000B3040B /* Extinsion.swift */; };
 		ED46C2902251600400B3040B /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED46C28F2251600400B3040B /* Joystick.swift */; };
+		ED46C2922258F3F800B3040B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED46C2912258F3F700B3040B /* MainViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		ED46C27622515E8200B3040B /* Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Project.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED46C27922515E8200B3040B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		ED46C27B22515E8200B3040B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		ED46C27B22515E8200B3040B /* Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
 		ED46C27E22515E8200B3040B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ED46C28022515E8400B3040B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ED46C28322515E8400B3040B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -28,6 +29,7 @@
 		ED46C28B22515F6400B3040B /* Class.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Class.swift; sourceTree = "<group>"; };
 		ED46C28D22515FA000B3040B /* Extinsion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extinsion.swift; sourceTree = "<group>"; };
 		ED46C28F2251600400B3040B /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
+		ED46C2912258F3F700B3040B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +63,8 @@
 			isa = PBXGroup;
 			children = (
 				ED46C27922515E8200B3040B /* AppDelegate.swift */,
-				ED46C27B22515E8200B3040B /* ViewController.swift */,
+				ED46C27B22515E8200B3040B /* Views.swift */,
+				ED46C2912258F3F700B3040B /* MainViewController.swift */,
 				ED46C28F2251600400B3040B /* Joystick.swift */,
 				ED46C28B22515F6400B3040B /* Class.swift */,
 				ED46C27D22515E8200B3040B /* Main.storyboard */,
@@ -146,7 +149,8 @@
 			files = (
 				ED46C28C22515F6400B3040B /* Class.swift in Sources */,
 				ED46C2902251600400B3040B /* Joystick.swift in Sources */,
-				ED46C27C22515E8200B3040B /* ViewController.swift in Sources */,
+				ED46C27C22515E8200B3040B /* Views.swift in Sources */,
+				ED46C2922258F3F800B3040B /* MainViewController.swift in Sources */,
 				ED46C27A22515E8200B3040B /* AppDelegate.swift in Sources */,
 				ED46C28E22515FA000B3040B /* Extinsion.swift in Sources */,
 			);
