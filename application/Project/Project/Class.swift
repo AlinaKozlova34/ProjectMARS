@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import RBSManager
 
 class Gameplay: SKScene {
     
@@ -32,14 +33,14 @@ class Gameplay: SKScene {
         return sprite
     }()
     
-      lazy var leftAnalogJoystick: AnalogJoystick = {
+    var leftAnalogJoystick: AnalogJoystick = {
         let js = AnalogJoystick(diameter: 100, colors: nil, images: (substrate: #imageLiteral(resourceName: "jSubstrate"), stick: #imageLiteral(resourceName: "jStick")))
         js.position = CGPoint(x: ScreenSize.width * -0.5 + js.radius + 45, y: ScreenSize.height * -0.5 + js.radius + 45)
         js.zPosition = NodesZPosition.joystick.rawValue
         return js
       }()
-    
-    lazy var rightAnalogJoystick: AnalogJoystick = {
+
+    var rightAnalogJoystick: AnalogJoystick = {
         let js = AnalogJoystick(diameter: 100, colors: nil, images: (substrate: #imageLiteral(resourceName: "jSubstrate"), stick: #imageLiteral(resourceName: "jStick")))
         js.position = CGPoint(x: ScreenSize.width * 0.5 - js.radius - 45, y: ScreenSize.height * -0.5 + js.radius + 45)
         js.zPosition = NodesZPosition.joystick.rawValue
@@ -60,12 +61,18 @@ class Gameplay: SKScene {
     func setupJoystick() {
         addChild(leftAnalogJoystick)
         addChild(rightAnalogJoystick)
-    
+
         leftAnalogJoystick.trackingHandler = { [unowned self] data in
           self.hero.position = CGPoint(x: self.hero.position.x + (data.velocity.x * self.velocityMultiplier),
                                        y: self.hero.position.y + (data.velocity.y * self.velocityMultiplier))
           self.hero.zRotation = data.angular
         }
-    
+        //rightAnalogJoystick.trackingHandler = { [unowned self] data in
+//            let message = TwistMessage()
+//            message.linear?.x = Float64(data.velocity.x * self.velocityMultiplier)
+//            message.linear?.y = Float64(data.velocity.y * self.velocityMultiplier)
+//            message.angular?.z = Float64(data.angular)
+            //print(data)
+        //}
     }
 }
