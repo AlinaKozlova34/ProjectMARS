@@ -11,7 +11,7 @@ import RBSManager
 
 class Gameplay: SKScene {
     
-    let velocityMultiplier: CGFloat = 0.12
+    let velocityMultiplier: CGFloat = 0.0005
     
     enum NodesZPosition: CGFloat {
         case background, hero, joystick
@@ -25,13 +25,13 @@ class Gameplay: SKScene {
         return sprite
     }()
     
-    lazy var hero: SKSpriteNode = {
-        var sprite = SKSpriteNode(imageNamed: "Hero")
-        sprite.position = CGPoint.zero
-        sprite.zPosition = NodesZPosition.hero.rawValue
-        sprite.scaleTo(screenWidthPercentage: 0.23)
-        return sprite
-    }()
+//    lazy var hero: SKSpriteNode = {
+//        var sprite = SKSpriteNode(imageNamed: "Hero")
+//        sprite.position = CGPoint.zero
+//        sprite.zPosition = NodesZPosition.hero.rawValue
+//        sprite.scaleTo(screenWidthPercentage: 0.23)
+//        return sprite
+//    }()
     
     var leftAnalogJoystick: AnalogJoystick = {
         let js = AnalogJoystick(diameter: 100, colors: nil, images: (substrate: #imageLiteral(resourceName: "jSubstrate"), stick: #imageLiteral(resourceName: "jStick")))
@@ -41,8 +41,10 @@ class Gameplay: SKScene {
       }()
 
     var rightAnalogJoystick: AnalogJoystick = {
-        let js = AnalogJoystick(diameter: 100, colors: nil, images: (substrate: #imageLiteral(resourceName: "jSubstrate"), stick: #imageLiteral(resourceName: "jStick")))
-        js.position = CGPoint(x: ScreenSize.width * 0.5 - js.radius - 45, y: ScreenSize.height * -0.5 + js.radius + 45)
+        let js = AnalogJoystick(diameter: 200, colors: nil, images: (substrate: #imageLiteral(resourceName: "jSubstrate"), stick: #imageLiteral(resourceName: "jStick")))
+        //let js = AnalogJoystick(diameter: 200, colors: nil, images: (substrate: #imageLiteral(resourceName: "jSubstrate"), stick: #imageLiteral(resourceName: "123")))
+
+        js.position = CGPoint(x: ScreenSize.width * 0.25 - js.radius - 45, y: ScreenSize.height * -0.5 + js.radius + 45)
         js.zPosition = NodesZPosition.joystick.rawValue
         return js
     }()
@@ -55,18 +57,12 @@ class Gameplay: SKScene {
     func setupNodes() {
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
         addChild(background)
-        addChild(hero)
+        //addChild(hero)
     }
     
     func setupJoystick() {
-        addChild(leftAnalogJoystick)
         addChild(rightAnalogJoystick)
-
-        leftAnalogJoystick.trackingHandler = { [unowned self] data in
-          self.hero.position = CGPoint(x: self.hero.position.x + (data.velocity.x * self.velocityMultiplier),
-                                       y: self.hero.position.y + (data.velocity.y * self.velocityMultiplier))
-          self.hero.zRotation = data.angular
-        }
+        
         //rightAnalogJoystick.trackingHandler = { [unowned self] data in
 //            let message = TwistMessage()
 //            message.linear?.x = Float64(data.velocity.x * self.velocityMultiplier)

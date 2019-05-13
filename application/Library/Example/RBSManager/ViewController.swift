@@ -64,14 +64,15 @@ class ViewController: UIViewController, RBSManagerDelegate, ColorPickerDelegate 
         updateToolbarItems()
         
         // create the publisher and subscriber
-        turtlePublisher = turtleManager?.addPublisher(topic: "/cmd_vel", messageType: "geometry_msgs/Twist", messageClass: TwistMessage.self)
-        turtleSubscriber = turtleManager?.addSubscriber(topic: "/pose", messageClass: PoseMessage.self, response: { (message) -> (Void) in
+        turtlePublisher = turtleManager?.addPublisher(topic: "/turtle1/cmd_vel", messageType: "geometry_msgs/Twist", messageClass: TwistMessage.self)
+        turtleSubscriber = turtleManager?.addSubscriber(topic: "/turtle1/pose", messageClass: PoseMessage.self, response: { (message) -> (Void) in
             // store the message for other operations
             self.lastPoseMessage = message as! PoseMessage
             
             // update the view with message data
             self.updateWithMessage(self.lastPoseMessage)
         })
+        turtleSubscriber = turtleManager?.addSubscriber(topic: "123", messageClass: SensorMessage.self, response: <#T##((RBSMessage) -> (Void))##((RBSMessage) -> (Void))##(RBSMessage) -> (Void)#>)
         turtleSubscriber?.messageType = "turtlesim/Pose"
     }
 
