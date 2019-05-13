@@ -63,8 +63,8 @@ class MainViewController: UIViewController, ControllDelegate, RBSManagerDelegate
             scene.leftAnalogJoystick.isHidden = false
             scene.rightAnalogJoystick.trackingHandler = { [unowned self](data) in
                 let message = TwistMessage()
-                message.linear?.x = Float64(data.velocity.x * self.scene.velocityMultiplier)
-                message.linear?.y = Float64(data.velocity.y * self.scene.velocityMultiplier)
+                message.linear?.x = Float64(data.velocity.y * self.scene.velocityMultiplier)
+                message.linear?.y = -Float64(data.velocity.x * self.scene.velocityMultiplier)
                 message.angular?.z = Float64(data.angular)
                 self.robotinoPublisher?.publish(message)
             }
