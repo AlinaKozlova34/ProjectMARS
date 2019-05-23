@@ -11,7 +11,7 @@ import RBSManager
 
 class Gameplay: SKScene {
     
-    let velocityMultiplier: CGFloat = 0.0005
+    let velocityMultiplier: CGFloat = 0.00325
     
     enum NodesZPosition: CGFloat {
         case background, hero, joystick
@@ -34,8 +34,9 @@ class Gameplay: SKScene {
 //    }()
     
     var leftAnalogJoystick: AnalogJoystick = {
-        let js = AnalogJoystick(diameter: 100, colors: nil, images: (substrate: #imageLiteral(resourceName: "jSubstrate"), stick: #imageLiteral(resourceName: "jStick")))
-        js.position = CGPoint(x: ScreenSize.width * -0.5 + js.radius + 45, y: ScreenSize.height * -0.5 + js.radius + 45)
+        let js = AnalogJoystick(diameter: 200, colors: nil, images: (substrate: #imageLiteral(resourceName: "jSubstrate"), stick: #imageLiteral(resourceName: "jStick")))
+        //let js = AnalogJoystick(diameter: 200, colors: nil, images: (substrate: #imageLiteral(resourceName: "jSubstrate"), stick: #imageLiteral(resourceName: "123")))
+        js.position = CGPoint(x: ScreenSize.width * 0.25 - js.radius - 45, y: ScreenSize.height * -0.5 + js.radius + 45)
         js.zPosition = NodesZPosition.joystick.rawValue
         return js
       }()
@@ -62,6 +63,7 @@ class Gameplay: SKScene {
     
     func setupJoystick() {
         addChild(rightAnalogJoystick)
+        addChild(leftAnalogJoystick)
         
         //rightAnalogJoystick.trackingHandler = { [unowned self] data in
 //            let message = TwistMessage()

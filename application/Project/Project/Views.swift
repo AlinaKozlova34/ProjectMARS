@@ -44,7 +44,7 @@ class CommandsViewController: UIViewController {
         tableView.register(CommandCell.self, forCellReuseIdentifier: CommandCell.reuseId)
         tableView.separatorStyle = .none
         tableView.rowHeight = 50
-        tableView.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        tableView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()

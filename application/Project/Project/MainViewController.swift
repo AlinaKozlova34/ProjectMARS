@@ -14,12 +14,14 @@ class MainViewController: UIViewController, ControllDelegate, RBSManagerDelegate
     
     let scene = Gameplay(size: CGSize(width: ScreenSize.width, height: ScreenSize.height))
     
+    var isConnected = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         
-        updateJoystick(bool: false)
+        updateJoystick(bool: isConnected)
         
         
         configureMenuViewController()
@@ -33,6 +35,30 @@ class MainViewController: UIViewController, ControllDelegate, RBSManagerDelegate
         
         setupViews()
         
+    }
+    
+    var segmentedControl: UISegmentedControl = {
+        let items = ["В одном направлении", "Во все стороны"]
+        var controller = UISegmentedControl(items: items)
+        
+        controller.backgroundColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+        controller.selectedSegmentIndex = 0
+        controller.tintColor = #colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1)
+        controller.layer.cornerRadius = 10
+        controller.addTarget(self, action: #selector(changedMotion(sender:)), for: .valueChanged)
+        controller.translatesAutoresizingMaskIntoConstraints = false
+        
+        return controller
+    }()
+    
+    @objc func changedMotion(sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            scene.rightAnalogJoystick.isHidden = false
+            scene.leftAnalogJoystick.isHidden = true
+        } else {
+            scene.rightAnalogJoystick.isHidden = true
+            scene.leftAnalogJoystick.isHidden = false
+        }
     }
     
     lazy var skView: SKView = {
@@ -59,28 +85,45 @@ class MainViewController: UIViewController, ControllDelegate, RBSManagerDelegate
     
     func updateJoystick(bool: Bool) {
         if bool {
+            segmentedControl.isHidden = false
             scene.rightAnalogJoystick.isHidden = false
-            scene.leftAnalogJoystick.isHidden = false
             scene.rightAnalogJoystick.trackingHandler = { [unowned self](data) in
                 let message = TwistMessage()
+                
+                if data.velocity.y < 0 {
+                    message.linear?.x = Float64(data.velocity.y * self.scene.velocityMultiplier)
+                    message.angular?.z = Float64(data.angular * 0.035)
+                } else {
+                    message.linear?.x = Float64(data.velocity.y * self.scene.velocityMultiplier)
+                    //message.linear?.y = -Float64(data.velocity.x * self.scene.velocityMultiplier)
+                    message.angular?.z = Float64(data.angular)
+                }
+                self.robotinoPublisher?.publish(message)
+            }
+            scene.leftAnalogJoystick.isHidden = true
+            scene.leftAnalogJoystick.trackingHandler = { [unowned self](data) in
+                let message = TwistMessage()
+                
                 message.linear?.x = Float64(data.velocity.y * self.scene.velocityMultiplier)
                 message.linear?.y = -Float64(data.velocity.x * self.scene.velocityMultiplier)
-                message.angular?.z = Float64(data.angular)
                 self.robotinoPublisher?.publish(message)
             }
         } else {
+            segmentedControl.isHidden = true
             scene.rightAnalogJoystick.isHidden = true
             scene.leftAnalogJoystick.isHidden = true
         }
     }
     
     func manager(_ manager: RBSManager, didDisconnect error: Error?) {
-        updateJoystick(bool: false)
+        isConnected = false
+        updateJoystick(bool: isConnected)
         print("Disconnected")
     }
     
     func managerDidConnect(_ manager: RBSManager) {
-        updateJoystick(bool: true)
+        isConnected = true
+        updateJoystick(bool: isConnected)
         print("Connected")
     }
     
@@ -129,7 +172,7 @@ class MainViewController: UIViewController, ControllDelegate, RBSManagerDelegate
                            initialSpringVelocity: 0,
                            options: .curveEaseInOut,
                            animations: {
-                            self.view.frame.origin.x = -self.view.frame.width + 700
+                            self.view.frame.origin.x = self.view.frame.origin.x - 200
             }) { (finished) in
             }
         } else {
@@ -192,6 +235,7 @@ class MainViewController: UIViewController, ControllDelegate, RBSManagerDelegate
     private func putConstraints() {
         skView.addSubview(commands)
         skView.addSubview(hostButton)
+        skView.addSubview(segmentedControl)
         
         commands.trailingAnchor.constraint(equalTo: skView.trailingAnchor).isActive = true
         commands.widthAnchor.constraint(equalToConstant: 120).isActive = true
@@ -202,5 +246,10 @@ class MainViewController: UIViewController, ControllDelegate, RBSManagerDelegate
         hostButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
         hostButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         hostButton.topAnchor.constraint(equalTo: skView.topAnchor, constant: 20).isActive = true
+        
+        segmentedControl.leadingAnchor.constraint(equalTo: skView.leadingAnchor, constant: 200).isActive = true
+        segmentedControl.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        segmentedControl.topAnchor.constraint(equalTo: skView.topAnchor, constant: 35).isActive = true
+        segmentedControl.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
 }

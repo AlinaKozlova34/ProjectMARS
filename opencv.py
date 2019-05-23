@@ -12,19 +12,9 @@ from std_msgs.msg import String
 
 print(cv2.__version__)
 
-def talker(x_robotino, y_robotino, x_goal, y_goal):
-
-    print(x_robotino, y_robotino, x_goal, y_goal)
-
-    pub = rospy.Publisher('coordinates', String, queue_size=10)
-    rospy.init_node('coordinates', anonymous=True)
-    rate = rospy.Rate(10)
-    coordinates_str = str(x_robotino) + str(y_robotino) + str(x_goal) + str(y_goal)
-    rospy.loginfo(coordinates_str)
-    pub.publi(coordinates_str)
-    rate.sleep()
-
-
+pub = rospy.Publisher('coordinates', String, queue_size=10)
+rospy.init_node('coordinates', anonymous=True)
+rate = rospy.Rate(10)
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
@@ -149,27 +139,11 @@ while True:
                        (0, 255, 255), 2)
             cv2.circle(frame, center2, 5, (0, 0, 255), -1)
 
-    try:
-        talker(x_robotino, y_robotino, x_goal, y_goal)
-    except rospy.ROSInterruptException:
-        pass
+    coordinates_str = str(x_robotino) + str(y_robotino) + '; ' + str(x_goal) + str(y_goal)
+	rospy.loginfo(coordinates_str)
+	pub.publish(coordinates_str)
+	rate.sleep()
 
-    # update the points queue
-    """
-    pts.appendleft(center)
-    pts.appendleft(center2)
-    # loop over the set of tracked points
-    for i in range(1, len(pts)):
-        # if either of the tracked points are None, ignore
-        # them
-        if pts[i - 1] is None or pts[i] is None:
-            continue
-
-        # otherwise, compute the thickness of the line and
-        # draw the connecting lines
-        thickness = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
-        cv2.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)
-    """
     # show the frame to our screen
     cv2.imshow("Frame", frame)
     key = cv2.waitKey(1) & 0xFF
