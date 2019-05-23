@@ -1,0 +1,106 @@
+#!/usr/bin/env python
+# Software License Agreement (BSD License)
+#
+# Copyright (c) 2008, Willow Garage, Inc.
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+#
+#  * Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#  * Redistributions in binary form must reproduce the above
+#    copyright notice, this list of conditions and the following
+#    disclaimer in the documentation and/or other materials provided
+#    with the distribution.
+#  * Neither the name of Willow Garage, Inc. nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+# FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+# COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+# BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+# LIABILimport math
+import threading
+from turtlesim.msg import Pose
+from geometry_msgs.msg import Point
+from geometry_msgs.msg import Twist
+
+#Controller's parameters
+kf = 1.0 #f - forward
+kr = 2.0 #r - rotation
+
+goal = Point()
+goal.x = 5.54
+goal.y = 5.54
+
+lock = threading.Lock()
+
+def goal_callback(msg):
+    global goal
+    lock.acquire()
+    goal = msg
+    lock.release()
+
+def pose_callback(cur_pose):
+    lock.acquire()
+    x = goal.x - cur_pose.x
+    y = goal.y - cur_pose.y
+    lock.release()
+    dist_to_goal = math.sqrt(x**2 + y**2)
+    if cur_pose.theta > math.pi:
+        error_angle = math.atan2(y, x) - cur_pose.theta + 2*math.pi
+    else:
+        error_angle = math.atan2(y, x) - cur_pose.theta
+
+    if error_angle > math.pi:
+        error_angle -= 2*math.pi
+    elif error_angle < -math.pi:
+        error_angle += 2*math.pi
+
+    velocity = Twist()    if abs(dist_to_goal) > 0.05:
+        velocity.linear.x = kf * dist_to_goal * math.cos(error_angle)
+        velocity.angular.z = kr * error_angle
+        vel_pub.publish(velocity)
+
+
+if __name__=="__main__":
+	rospy.init_node('controller_node')
+	goal_sub = rospy.Subscriber('/turtle_goal', Point, goal_callback)
+	pose_sub = rospy.Subscriber('/turtle1/pose', Pose, pose_callback)
+	vel_pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
+	rospy.spin()
+# ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+# Revision $Id$
+
+## Simple talker demo that published std_msgs/Strings messages
+## to the 'chatter' topic
+
+import rospy
+import  
+from std_msgs.msg import String
+
+def talker():
+    pub = rospy.Publisher('chatter', String, queue_size=10)
+    rospy.init_node('talker', anonymous=True)
+    rate = rospy.Rate(10) # 10hz
+    while not rospy.is_shutdown():
+        hello_str = "hello world %s" % rospy.get_time()
+        rospy.loginfo(hello_str)
+        pub.publish(hello_str)
+        rate.sleep()
+
+if __name__ == '__main__':
+    try:
+        talker()
+    except rospy.ROSInterruptException:
+        pass
